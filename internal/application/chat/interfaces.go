@@ -13,3 +13,9 @@ type MessageStore interface {
 type Broadcaster interface {
     Broadcast(message domain.Message)
 }
+
+
+type Client interface {
+    Send(message domain.Message) error
+    Close() error
+}
