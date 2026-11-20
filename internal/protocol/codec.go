@@ -45,19 +45,17 @@ func (d *Decoder) Decode() (ClientMessage, error) {
 }
 
 type Encoder struct {
-    writer io.Writer
+    encoder *json.Encoder
 }
 
 func NewEncoder(writer io.Writer) *Encoder {
     return &Encoder{
-        writer: writer,
+        encoder: json.NewEncoder(writer),
     }
 }
 
 func (e *Encoder) Encode(message ServerMessage) error {
-    encoder := json.NewEncoder(e.writer)
-
-    if err := encoder.Encode(message); err != nil {
+    if err := e.encoder.Encode(message); err != nil {
         return fmt.Errorf("encode message: %w", err)
     }
 
