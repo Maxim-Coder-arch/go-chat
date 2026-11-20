@@ -15,6 +15,14 @@ type Broadcaster interface {
 }
 
 type Client interface {
-	Send(message domain.Message) error
-	Close() error
+    Send(message domain.Message) error
+    Close() error
+}
+
+type MessageHandler interface {
+    SendMessage(
+        ctx context.Context,
+        username string,
+        text string,
+    ) (domain.Message, error)
 }
