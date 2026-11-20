@@ -1,6 +1,11 @@
 package protocol
 
-import "time"
+import (
+    "errors"
+    "time"
+)
+
+var ErrInvalidMessageType = errors.New("invalid message type")
 
 type MessageType string
 
@@ -15,6 +20,15 @@ const (
 type ClientMessage struct {
     Type MessageType `json:"type"`
     Text string      `json:"text,omitempty"`
+}
+
+func (m ClientMessage) Validate() error {
+    switch m.Type {
+    case MessageTypeJoin, MessageTypeMessage, MessageTypeLeave:
+        return nil
+    default:
+        return ErrInvalidMessageType
+    }
 }
 
 type ServerMessage struct {
