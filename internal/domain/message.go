@@ -6,9 +6,9 @@ import (
 )
 
 type Message struct {
-	ID string
-	Username string
-	Text string
+	ID        string
+	Username  string
+	Text      string
 	CreatedAt time.Time
 }
 
@@ -18,8 +18,8 @@ func (m Message) Validate() error {
 	}
 
 	if strings.TrimSpace(m.Text) == "" {
-        return ErrEmptyMessage
-    }
+		return ErrEmptyMessage
+	}
 
 	return nil
 }
