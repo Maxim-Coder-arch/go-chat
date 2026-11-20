@@ -1,8 +1,9 @@
 package protocol
 
 import (
-    "errors"
-    "time"
+	"errors"
+	"strings"
+	"time"
 )
 
 var ErrInvalidMessageType = errors.New("invalid message type")
@@ -20,15 +21,29 @@ const (
 type ClientMessage struct {
     Type MessageType `json:"type"`
     Text string      `json:"text,omitempty"`
+	Username string `json:"username,omitempty"`
 }
 
 func (m ClientMessage) Validate() error {
     switch m.Type {
-    case MessageTypeJoin, MessageTypeMessage, MessageTypeLeave:
+    case MessageTypeJoin:
+        if strings.TrimSpace(m.Username) == "" {
+            return errors.New("username cannot be empty")
+        }
+
+    case MessageTypeMessage:
+        if strings.TrimSpace(m.Text) == "" {
+            return errors.New("message cannot be empty")
+        }
+
+    case MessageTypeLeave:
         return nil
+
     default:
         return ErrInvalidMessageType
     }
+
+    return nil
 }
 
 type ServerMessage struct {

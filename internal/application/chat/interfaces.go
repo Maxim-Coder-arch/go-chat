@@ -26,3 +26,8 @@ type MessageHandler interface {
         text string,
     ) (domain.Message, error)
 }
+
+type ClientRegistry interface {
+    Register(client Client)
+    Unregister(client Client)
+}
